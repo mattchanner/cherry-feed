@@ -23,16 +23,26 @@
 import cherrypy
 import os
 import json
+import logging
+import logging.config
 
 from app import webapp, feedapi
 from models import feeds
+
+logging.config.fileConfig("data/logging.conf")
+
+logger = logging.getLogger("main")
 
 
 def load_feed_store():
     """Loads the list of feeds from a JSON data source."""
     feed_file = os.path.abspath('data/feeds.json')
     with open(feed_file, 'r') as f:
+
+        logger.info("Loading json file from {}".format(feed_file))
         feed_data = json.load(f)
+
+        logger.info("Setting up feed store")
         store = feeds.FeedStore(feed_data)
         return store
 
@@ -88,8 +98,10 @@ if __name__ == "__main__":
 
     web_app = webapp.WebApp()
 
+
     feed_api = feedapi.FeedApi(store)
 
     web_app.feeds = feed_api
 
+    logger.info("Starting web server")
     cherrypy.quickstart(web_app, '/', conf)

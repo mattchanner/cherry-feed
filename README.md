@@ -22,7 +22,7 @@ Install dependencies and run:
 
 ```sh
 $ pip install -r requirements.txt
-$ python app.py 
+$ python main.py 
 ```
 
 Navigate to:

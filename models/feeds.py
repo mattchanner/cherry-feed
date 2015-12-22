@@ -40,11 +40,12 @@ class FeedNotFoundError(Exception):
 class FeedStore(object):
     """ The Feed Model. """
 
-    def __init__(self, feed_json):
+    def __init__(self, feed_json, parser=None):
         """
         Initializes a new instance of the feed store.
         @param feed_json: The parsed JSON data containing the feeds to load
         """
+        self.parse = parser or feedparser.parse
         self._cache = {}
         logger.debug(
             "FeedStore called with the following JSON: {}".format(
@@ -66,7 +67,7 @@ class FeedStore(object):
             logger.info("Loading feed {}".format(feed['title']))
 
             url = feed["url"]
-            feed_data = feedparser.parse(url)
+            feed_data = self.parse(url)
             cached = {
                 'source': feed,
                 'title': feed['title'],
@@ -88,9 +89,11 @@ class FeedStore(object):
         is_valid = elapsed_secs < CACHE_DURATION
         if is_valid:
             logger.info("Cache hit for {}", feed_data['title'])
+            print("Cache hit")
         else:
             logger.info("Cache MISS for {}, elapsed = {}",
                         feed_data['title'], elapsed)
+            print("Cache MISS")
         return is_valid
 
     def feeds(self):

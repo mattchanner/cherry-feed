@@ -60,12 +60,13 @@ class FeedApi(object):
     def GET(self, id=None, item_index=None):
         """Main feed handler.
            Supports the following URL patterns:
-           GET /feeds              Returns an array of all feeds
-           GET /feeds/<uuid>       Returns the links and top level feed details
-                                   for a single feed
-           GET /feeds/<uuid>/index Returns the summary data for a single
-                                   feed entry
-        """
+           GET /feeds
+              Returns an array of all feeds
+           GET /feeds/<uuid>
+              Returns the links and top level feed details
+              for a single feed
+           GET /feeds/<uuid>/<index>
+              Returns the summary data for a single feed entry"""
         if not id:
             # /feeds
             return self._json(self.feed_model.feeds())
