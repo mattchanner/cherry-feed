@@ -26,7 +26,7 @@ import time
 import uuid
 
 # 1 hour cache duration for each feed
-CACHE_DURATION = 1000 * 60 * 60
+CACHE_DURATION = 60 * 60
 
 
 class FeedNotFoundError(Exception):
