@@ -1,0 +1,15 @@
+{
+    "feeds": [
+        {"title": "Planet Clojure", "url": "http://planet.clojure.in/atom.xml"},
+        {"title": "Hacker News", "url": "https://news.ycombinator.com/rss"},
+        {"title": "Stack Overflow", "url": "http://stackoverflow.com/feeds"},
+        {"title": "CodeProject Latest postings for The Insider", "url": "http://www.codeproject.com/WebServices/MessageRSS.aspx?fid=1658735"},
+        {"title": "The Register", "url": "http://www.theregister.co.uk/excerpts.rss"},
+        {"title": "Martin Fowler", "url": "http://martinfowler.com/feed.atom"},
+        {"title": "Scott Hanselman's Blog", "url": "http://feeds.hanselman.com/scotthanselman"},
+        {"title": "Tomas Petricek's blog", "url": "http://tomasp.net/rss.xml"},
+        {"title": "xkcd", "url": "http://xkcd.com/rss.xml"},
+        {"title": "what if?", "url": "http://what-if.xkcd.com/feed.atom"},
+        {"title": "Julia Evans", "url": "http://jvns.ca/atom.xml"}
+    ]
+}
