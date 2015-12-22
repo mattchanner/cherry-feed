@@ -1,5 +1,7 @@
 #  cherry-feed - A single page application showing my favourite news feeds
 
+![Screen shot](https://github.com/mattchanner/cherry-feed/blob/master/screenshot.png)
+
 Installation:
 
 Clone the repository:
