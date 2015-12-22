@@ -10,12 +10,17 @@ Clone the repository:
 $ git clone https://github.com/mattchanner/cherry-feed.git
 ```
 
-Move into the root of the source dir and set up a vitual environment:
+Set up a vitual environment:
 
 ```sh
 $ cd cherry-feed
 $ virtualenv venv
 $ source venv/bin/activate
+```
+
+Install dependencies and run:
+
+```sh
 $ pip install -r requirements.txt
 $ python app.py 
 ```
