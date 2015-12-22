@@ -22,6 +22,9 @@
 """
 import cherrypy
 import json
+import logging
+
+logger = logging.getLogger("feedapi")
 
 
 class FeedApi(object):
@@ -30,6 +33,7 @@ class FeedApi(object):
     exposed = True
 
     def __init__(self, feed_model):
+        logger.info("FeedApi initialised with model")
         self.feed_model = feed_model
 
     def _json(self, model):
@@ -43,18 +47,15 @@ class FeedApi(object):
         # Could use a Jinja2 template here but seems overkill
         cherrypy.response.headers['Content-Type'] = "text/html"
 
-        doc = """
-            <html>
+        doc = ["""<html>
                 <head>
                     <link rel='stylesheet'
                           href='/lib/bootstrap-3/css/bootstrap.css'>
                 </head>
-                <body>
-                    {}
-                </body>
-            </html>""".format(html)
-        print doc
-        return str(doc)
+                <body>""",
+               html,
+               "</body></html>"]
+        return "".join(doc)
 
     def GET(self, id=None, item_index=None):
         """Main feed handler.

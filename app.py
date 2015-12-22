@@ -74,7 +74,10 @@ if __name__ == "__main__":
 
     cherrypy.config.update({
         'server.socket_host': '0.0.0.0',
-        'server.socket_port': int(os.environ.get('PORT', '5050'))
+        'server.socket_port': int(os.environ.get('PORT', '5050')),
+        'engine.autoreload.on': False,
+        'tools.encode.on': True,
+        'tools.encode.encoding': 'utf-8'
     })
 
     cherrypy.tools.secureheaders = cherrypy.Tool('before_finalize',

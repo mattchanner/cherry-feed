@@ -24,6 +24,10 @@ import feedparser
 import datetime
 import time
 import uuid
+import logging
+
+
+logger = logging.getLogger("feeds")
 
 # 1 hour cache duration for each feed
 CACHE_DURATION = 60 * 60
@@ -42,22 +46,28 @@ class FeedStore(object):
         @param feed_json: The parsed JSON data containing the feeds to load
         """
         self._cache = {}
+        logger.debug(
+            "FeedStore called with the following JSON: {}".format(
+                str(feed_json)))
+
         for feed_data in feed_json["feeds"]:
             id = self._uuid()
-            parsed_data = self._load_feed(feed_data, id)
+            parsed_data = self._load_feed(feed_data)
             self._cache[id] = parsed_data
 
     def _uuid(self):
         """Helper used for creating a unique identifier for a feed."""
         return str(uuid.uuid4()).replace('-', '')
 
-    def _load_feed(self, feed, id):
+    def _load_feed(self, feed):
         """Creates the feed data by parsing a feed url"""
         try:
+
+            logger.info("Loading feed {}".format(feed['title']))
+
             url = feed["url"]
             feed_data = feedparser.parse(url)
             cached = {
-                'id': id,
                 'source': feed,
                 'title': feed['title'],
                 'url': url,
@@ -66,7 +76,8 @@ class FeedStore(object):
             }
             return cached
         except Exception, e:
-            print(e)
+            logger.error(
+                "Error caught loading feed with URL {}: {}".format(url, e))
             return {}
 
     def cache_is_ok(self, feed_data):
@@ -74,7 +85,13 @@ class FeedStore(object):
         current = time.time()
         elapsed = current - feed_data["cache_time"]
         elapsed_secs = datetime.timedelta(seconds=int(elapsed)).total_seconds()
-        return elapsed_secs < CACHE_DURATION
+        is_valid = elapsed_secs < CACHE_DURATION
+        if is_valid:
+            logger.info("Cache hit for {}", feed_data['title'])
+        else:
+            logger.info("Cache MISS for {}, elapsed = {}",
+                        feed_data['title'], elapsed)
+        return is_valid
 
     def feeds(self):
         """Retuns an array of top level feed items."""
@@ -90,11 +107,12 @@ class FeedStore(object):
             if feed_id in self._cache:
                 cached = self._cache[feed_id]
                 if not self.cache_is_ok(cached):
-                    self._cache[feed_id] = self._load_feed(cached['source'],
-                                                           feed_id)
+                    self._cache[feed_id] = self._load_feed(cached['source'])
                 return self._cache[feed_id]["feed"]
             else:
                 raise FeedNotFoundError()
+
+        logger.info("Fetching feed data for feed with id {}".format(feed_id))
 
         cached_item = get_cached_item()
         items = []
@@ -106,12 +124,12 @@ class FeedStore(object):
                 'title': item['title'],
                 'summary': item['summary']
             })
+
         feed = cached_item['feed']
         return {
             'data': {
                 'items': items
             },
-            'description': feed['description'],
             'id': feed_id,
             'title': feed['title']
         }
