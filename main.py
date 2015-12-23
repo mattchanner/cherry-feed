@@ -26,8 +26,8 @@ import json
 import logging
 import logging.config
 
-from app import webapp, feedapi
-from models import feeds
+from webapp import webapp, feedapi
+from webapp.models import feeds
 
 logging.config.fileConfig("data/logging.conf")
 
@@ -97,7 +97,6 @@ if __name__ == "__main__":
     store = load_feed_store()
 
     web_app = webapp.WebApp()
-
 
     feed_api = feedapi.FeedApi(store)
 
