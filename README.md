@@ -1,4 +1,4 @@
-#  cherry-feed - A single page application showing my favourite news feeds
+#  cherry-feed - cherrypy driven feed reader
 
 [![Build Status](https://travis-ci.org/mattchanner/cherry-feed.svg?branch=master)](https://travis-ci.org/mattchanner/cherry-feed)
 ![Screen shot](https://github.com/mattchanner/cherry-feed/blob/master/screenshot.png)
