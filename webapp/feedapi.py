@@ -72,6 +72,7 @@ class FeedApi(object):
             return self._json(self.feed_model.feeds())
 
         feed_data = self.feed_model.feed_by_id(id)
+        
         if not item_index:
             # /feeds/<uuid>
             return self._json(feed_data)
