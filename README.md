@@ -7,6 +7,7 @@ Installation:
 
 Clone the repository:
 
+
 ```sh
 $ git clone https://github.com/mattchanner/cherry-feed.git
 ```
